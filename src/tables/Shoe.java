@@ -19,7 +19,6 @@ public class Shoe {
                 price+" "+color+" "+ brand + " amount in stock: "+ stockAmount;
     }
 
-
     public int getStockAmount() {
         return stockAmount;
     }

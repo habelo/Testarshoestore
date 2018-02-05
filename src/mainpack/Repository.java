@@ -2,8 +2,6 @@ package mainpack;
 
 import tables.*;
 
-import javax.swing.*;
-import java.io.*;
 import java.util.*;
 
 public class Repository {
@@ -16,7 +14,7 @@ public class Repository {
     private TableMaker tm = new TableMaker();
 
 
-    public Repository() {
+    Repository() {
         setupLists();
     }
 
@@ -29,7 +27,7 @@ public class Repository {
         pairCatNshoe=tm.makePairMap(allCategories, allShoes);
     }
 
-    protected int getTotalOrderValue(Costumer c) {
+    private int getTotalOrderValue(Costumer c) {
 
         List<Purchase> purchases = c.getCostumerPurchases();
         int temp =0;
@@ -65,9 +63,10 @@ public class Repository {
 
     public void printStage1() {
 
-        for (Costumer c : allCostumers){
-        System.out.println(c.toString()+"\t"+getTotalOrderValue(c)+" totalt spenderat");
-        }
+//        for (Costumer c : allCostumers){
+//        System.out.println(c.toString()+"\t"+getTotalOrderValue(c)+" totalt spenderat");
+//        }
+        allCostumers.forEach(costumer -> System.out.println(costumer.toString()+"\t"+getTotalOrderValue(costumer)+" totalt spenderat"));
     }
 
     public String printStage2() {
@@ -149,7 +148,8 @@ public class Repository {
             if(notExist)
                 System.out.println("fanns inte");
 
-        tm.callAdd2Cart(user.getId(), purchaseOrder.getId(), shoeOrder.getId());
+            assert shoeOrder != null;
+            tm.callAdd2Cart(user.getId(), purchaseOrder.getId(), shoeOrder.getId());
         shoeOrder.setStockAmount(shoeOrder.getStockAmount()-1);
             System.out.println("vara beställd"+shoeOrder.toString());
             System.out.println("Skriv nej om ej fortsätt");

@@ -15,7 +15,7 @@ public class TableMaker {
     private String propPath = "C:\\Users\\MaybeNull\\IdeaProjects\\Shoestore\\src\\mainpack\\prop.properties";
     private String username, password, connection2DB;
 
-    public TableMaker() {
+    TableMaker() {
         setupProperties();
     }
 
@@ -26,10 +26,11 @@ public class TableMaker {
         try (
                 Connection con = DriverManager.getConnection(connection2DB, username, password);
                 Statement stmnt = con.createStatement();
-                PreparedStatement pst2 = con.prepareStatement("select id, shoeid, orderid from sale where ? = orderid;")
+                PreparedStatement pst2 = con.prepareStatement("select id, shoeid, orderid, regionid from sale where ? = orderid;")
         ){
             ResultSet rs = stmnt.executeQuery(
-"select purchase_order.id as id, purchase_order.purchaseid as pid, purchase_order.purchase_date as date, count(sale.orderid) as Sale from purchase_order join sale ON purchase_order.id = sale.orderid group by purchase_order.id;");
+"select purchase_order.id as id, purchase_order.purchaseid as pid, purchase_order.purchase_date as date, " +
+"count(sale.orderid) as Sale from purchase_order join sale ON purchase_order.id = sale.orderid group by purchase_order.id;");
 //listan AllOrders
             while (rs.next()){
                 int id = rs.getInt("id");
@@ -44,7 +45,7 @@ public class TableMaker {
                     ResultSet rs2 = pst2.executeQuery();
                     for (int i = 0; i < antalSale; i++) {
                         rs2.next();
-                        Sale sale = new Sale(rs2.getInt("id"), rs2.getInt("shoeid"), rs2.getInt("orderid"));
+                        Sale sale = new Sale(rs2.getInt("id"), rs2.getInt("shoeid"), rs2.getInt("orderid"), rs2.getInt("regionid"));
                         po.setOrderSale(sale);
                     }
                     rs2.close();
@@ -199,8 +200,6 @@ public class TableMaker {
     }
 
     public void callAdd2Cart(int userid, int orderid, int shoeid) {
-
-        List<Category> temp = new ArrayList<>();
 
         try (
                 Connection con = DriverManager.getConnection(connection2DB, username, password);

@@ -2,12 +2,13 @@ package tables;
 
 public class Sale {
 
-    private int id, shoeid, orderid;
+    private int id, shoeid, orderid, regionid;
 
-    public Sale(int id, int shoeid, int orderid) {
+    public Sale(int id, int shoeid, int orderid, int regionid) {
         this.id = id;
         this.shoeid = shoeid;
         this.orderid = orderid;
+        this.regionid = regionid;
     }
 
     @Override
